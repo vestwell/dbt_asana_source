@@ -1,7 +1,7 @@
 
 with base as (
 
-    select * 
+    select *
     from {{ ref('stg_asana__project_tmp') }}
 
 ),
@@ -15,17 +15,24 @@ fields as (
                 staging_columns=get_project_columns()
             )
         }}
-        
+
+        --The below script allows for pass through columns.
+        {% if var('project_pass_through_columns') %}
+        ,
+        {{ var('project_pass_through_columns') | join (", ") }}
+
+        {% endif %}
+
     from base
 ),
 
 final as (
-    
-    select 
+
+    select
         id as project_id,
         archived as is_archived,
         created_at,
-        current_status, 
+        current_status,
         due_date,
         modified_at,
         name as project_name,
@@ -34,8 +41,16 @@ final as (
         team_id,
         workspace_id,
         notes
+
+        --The below script allows for pass through columns.
+        {% if var('project_pass_through_columns') %}
+        ,
+        {{ var('project_pass_through_columns') | join (", ") }}
+
+        {% endif %}
+
     from fields
 )
 
-select * 
+select *
 from final
