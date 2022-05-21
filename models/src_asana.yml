@@ -1,13 +1,13 @@
 version: 2
 
 sources:
-  - name: asana 
+  - name: asana
     database: "{{var ('asana_database', target.database)}}"
     schema: "{{var ('asana_schema', 'asana')}}"
 
     loader: fivetran
     loaded_at_field: _fivetran_synced
-      
+
     freshness:
       warn_after: {count: 72, period: hour}
       error_after: {count: 96, period: hour}
@@ -24,7 +24,7 @@ sources:
             description: Email associated with the user
           - name: name
             description: Given name for the user as it appears in the UI
-              
+
 
       - name: task
         description: Table containing all created tasks
@@ -46,7 +46,7 @@ sources:
           - name: due_on
             description: The date on which the task is due. Note that not tasks may not have a due date
           - name: due_at
-            description: The date and time at which the task is due, only if a specific time is given. 
+            description: The date and time at which the task is due, only if a specific time is given.
           - name: modified_at
             description: The last time the task was updated. Does not include comments nor changes in associations (ie their projects)
           - name: name
@@ -56,7 +56,7 @@ sources:
           - name: parent_id
             description: The ID of the parent of the task, if it is a subtask. Self-refers to TASK
           - name: start_on
-            description: The start date of the task, if given with the due date 
+            description: The start date of the task, if given with the due date
           - name: workspace_id
             description: The id of an organization's workspace in asana. Not necessary unless you have access to multiple organization's asanas.
 
@@ -76,7 +76,7 @@ sources:
           - name: current_status
             description: The most recent progress status update for the project. This is sent to all project followers
           - name: due_date
-            description: The date the project is due 
+            description: The date the project is due
           - name: modified_at
             description: The last time the project was updated. Does not include comments nor changes in associations (ie new tasks)
           - name: name
@@ -136,7 +136,7 @@ sources:
             description: Timestamp of when the tag was created
           - name: color
             description: Chosen color of the tag as it appears in the UI
-        
+
 
       - name: section
         description: Table of all sections within projects. If tasks in a project are not in an explicit user-made section, a default section called "(no section)" is created here
@@ -170,7 +170,7 @@ sources:
           - name: user_id
             description: Foreign key referencing the USER that is following the task
 
-              
+
       - name: task_tag
         description: Table of tasks with the tags attached to them. Tasks without tags (and vice versa) do not appear here.
         freshness: null
@@ -179,7 +179,7 @@ sources:
             description: Foreign key referencing the TASK that is tagged
           - name: tag_id
             description: Foreign key referencing the TAG that is applied to the task
-            
+
 
       - name: task_section
         description: Table of tasks and the section that they live under. Section-less tasks within projects appear here, but project-less tasks do not
@@ -189,3 +189,5 @@ sources:
             description: Foreign key referencing the SECTION that the task lives under.
           - name: task_id
             description: Foreign key referencing the TASK that lives in a section.
+
+      - name: project_status
