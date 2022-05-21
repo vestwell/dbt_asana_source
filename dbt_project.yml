@@ -23,4 +23,5 @@ vars:
     task_tag: "{{ source('asana', 'task_tag') }}"
     section: "{{ source('asana', 'section') }}"
     task_section: "{{ source('asana', 'task_section') }}"
+    project_status: "{{ source ('asana', 'project_status')}}"
     task_pass_through_columns: []
