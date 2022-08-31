@@ -1,7 +1,7 @@
 
 with base as (
 
-    select * 
+    select *
     from {{ ref('stg_asana__task_tmp') }}
 
 ),
@@ -16,6 +16,8 @@ fields as (
             )
         }}
 
+        , _fivetran_deleted
+
         --The below script allows for pass through columns.
         {% if var('task_pass_through_columns') %}
         ,
@@ -27,8 +29,8 @@ fields as (
 ),
 
 final as (
-    
-    select 
+
+    select
         id as task_id,
         assignee_id as assignee_user_id,
         assignee_status,
@@ -42,7 +44,8 @@ final as (
         parent_id as parent_task_id,
         start_on as start_date,
         notes as task_description,
-        workspace_id
+        workspace_id,
+        _fivetran_deleted as is_deleted
 
         --The below script allows for pass through columns.
         {% if var('task_pass_through_columns') %}
@@ -54,5 +57,5 @@ final as (
     from fields
 )
 
-select * 
+select *
 from final
